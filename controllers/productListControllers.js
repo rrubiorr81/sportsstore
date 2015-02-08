@@ -1,12 +1,19 @@
 //adding a nre controller to the sportStore module...
 angular.module("sportsStore")
     .constant("productListActiveClass", "btn-primary")  //this constant is appended to the module (fluent API)
-    .controller("productListCtrl", function ($scope, i, productListActiveClass) {
+    .constant("productListPageCount", 3)                //the number of products shown on a page
+    .controller("productListCtrl", function ($scope, $filter,  productListActiveClass, productListPageCount) {
         var selectedCategory = null;
+        $scope.selectedPage = 1;
+        $scope.pageSize = productListPageCount;
         //newCategory is the string category, passed on click...
         $scope.selectCategory = function (productCategory) {
             selectedCategory = productCategory; //productCategory ==> string
+            $scope.selectedPage = 1;
             //console.log('selecting category');
+        }
+        $scope.selectPage = function (newPage) {
+            $scope.selectedPage = newPage;
         }
         $scope.categoryFilterFn = function (product) {
             //console.log(product);
@@ -15,6 +22,9 @@ angular.module("sportsStore")
         }
         $scope.getCategoryClass = function (category) {
             return selectedCategory == category ? productListActiveClass : "";
+        }
+        $scope.getPageClass = function (page) {
+            return $scope.selectedPage == page ? productListActiveClass : "";
         }
     });
 
