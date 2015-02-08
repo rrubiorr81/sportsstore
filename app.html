@@ -18,26 +18,30 @@
 </div>
 <div class="container">
     <div class="panel panel-default row" ng-controller="productListCtrl">
-    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-        <a ng-click="selectCategory()"
-           class="btn btn-block btn-default btn-lg">Home</a>
-        <a ng-repeat="item in data.products | orderBy:'category' | unique:'category'"
-           ng-click="selectCategory(item)" class=" btn btn-block btn-default btn-lg">
-            {{item}}
-        </a>
-    </div>
-    <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
-        <div class="well" ng-repeat="item in data.products | filter:categoryFilterFn">
-            <h3>
-                <strong>{{item.name}}</strong>
-                    <span class="pull-right label label-primary">
-                        {{item.price | currency}}
-                    </span>
-            </h3>
-            <span class="lead">{{item.description}}</span>
+        <!--the categories-->
+        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+            <a ng-click="selectCategory()"
+               class="btn btn-block btn-default btn-lg">Home</a>
+            <a ng-repeat="item in data.products | orderBy:'category' | unique:'category'"
+               ng-click="selectCategory(item)" class=" btn btn-block btn-default btn-lg" ng-class="getCategoryClass(item)">
+                {{item}}
+            </a>
+        </div>
+
+        <!--the products-->
+        <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+            <div class="well" ng-repeat="item in data.products | filter:categoryFilterFn">
+                <h3>
+                    <strong>{{item.name}}</strong>
+                        <span class="pull-right label label-primary">
+                            {{item.price | currency}}
+                        </span>
+                </h3>
+                <span class="lead">{{item.description}}</span>
+            </div>
         </div>
     </div>
 </div>
-</div>
+
 </body>
 </html>
