@@ -6,51 +6,26 @@
     <link href="bootstrap.css" rel="stylesheet" />
     <link href="bootstrap-theme.css" rel="stylesheet" />
     <script>
-        angular.module("sportsStore", ["customFilters"]);
+        angular.module("sportsStore", ["customFilters", "cart"]);
     </script>
     <script src="controllers/sportsStore.js"></script>
     <script src="filters/customFilters.js"></script>
     <script src="controllers/productListControllers.js"></script>
+    <script src="components/cart/cart.js"></script>
 </head>
 <body ng-controller="sportsStoreCtrl">
 <div class="navbar navbar-inverse">
     <a class="navbar-brand" href="#">SPORTS STORE</a>
+    <!--AngularJS normalizes component names to map between these formats-->
+    <cart-summary />
 </div>
-<div class="container">
-    <div class="panel panel-default row" ng-controller="productListCtrl">
-        <!--the categories-->
-        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-            <a ng-click="selectCategory()"
-               class="btn btn-block btn-default btn-lg">Home</a>
-            <a ng-repeat="item in data.products | orderBy:'category' | unique:'category'"
-               ng-click="selectCategory(item)" class=" btn btn-block btn-default btn-lg" ng-class="getCategoryClass(item)">
-                {{item}}
-            </a>
-        </div>
 
-        <!--the products-->
-        <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
-            <!--with the [range:selectedPage:pageSize] part, we chop the result from previous filter, passing as parameters [selectedPage:pageSize]-->
-            <div class="well" ng-repeat="item in data.products | filter:categoryFilterFn | range:selectedPage:pageSize">
-                <h3>
-                    <strong>{{item.name}}</strong>
-                        <span class="pull-right label label-primary">
-                            {{item.price | currency}}
-                        </span>
-                </h3>
-                <span class="lead">{{item.description}}</span>
-            </div>
-            <!--the pagination buttons-->
-            <div class="pull-right btn-group">
-                <a ng-repeat= "page in data.products | filter:categoryFilterFn | pageCount:pageSize"
-                   ng-click="selectPage($index + 1)" class="btn btn-default"
-                   ng-class="getPageClass($index + 1)">
-                    {{$index + 1}}
-                </a>
-            </div>
-        </div>
-    </div>
+<div class="alert alert-danger" ng-show="data.error">
+    Error ({{data.error.status}}). The product data was not loaded.
+    <a href="/app.html" class="alert-link">Click here to try again</a>
 </div>
+
+<ng-include src="'views/productList.html'"></ng-include>
 
 </body>
 </html>
