@@ -2,7 +2,7 @@
 angular.module("sportsStore")
     .constant("productListActiveClass", "btn-primary")  //this constant is appended to the module (fluent API)
     .constant("productListPageCount", 3)                //the number of products shown on a page
-    .controller("productListCtrl", function ($scope, $filter,  productListActiveClass, productListPageCount) {
+    .controller("productListCtrl", function ($scope, $filter,  productListActiveClass, productListPageCount, cart) {
         var selectedCategory = null;
         $scope.selectedPage = 1;
         $scope.pageSize = productListPageCount;
@@ -25,6 +25,11 @@ angular.module("sportsStore")
         }
         $scope.getPageClass = function (page) {
             return $scope.selectedPage == page ? productListActiveClass : "";
+        }
+
+        //his pattern of declaring a dependency on a service and then selectively exposing its functionality through the scope is one you will encounter a lot in AngularJS development.
+        $scope.addProductToCart = function (product) {
+            cart.addProduct(product.id, product.name, product.price);
         }
     });
 
