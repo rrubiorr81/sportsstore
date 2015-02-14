@@ -17,13 +17,21 @@
                     });
                     $routeProvider.otherwise({
                         templateUrl: "/views/productList.html"
-                    }); });
+                    });
+                    $routeProvider.when("/complete", {
+                        templateUrl: "/views/thankYou.html"
+                    });
+                    $routeProvider.when("/placeorder", {
+                        templateUrl: "/views/placeOrder.html"
+                    });
+                });
     </script>
     <script src="controllers/sportsStore.js"></script>
     <script src="filters/customFilters.js"></script>
     <script src="controllers/productListControllers.js"></script>
     <script src="components/cart/cart.js"></script>
     <script src="ngmodules/angular-route.js"></script>
+    <script src="controllers/checkoutControllers.js"></script>
 </head>
 <body ng-controller="sportsStoreCtrl">
 <div class="navbar navbar-inverse">
