@@ -1,8 +1,9 @@
 angular.module("sportsStore")
     .constant("dataUrl", "http://localhost:2403/products")
-    .controller("sportsStoreCtrl", function ($scope, $http, dataUrl) {
+    .constant("orderUrl", "http://localhost:2403/orders")
+    .controller("sportsStoreCtrl", function ($scope, $http, $location, dataUrl, orderUrl, cart) {
         $scope.data = {
-            products: [{"category":"Watersports","description":"A boat for one person","name":"Kayak",
+            /*products: [{"category":"Watersports","description":"A boat for one person","name":"Kayak",
                 "price":275,"id":"05af70919155f8fc"},
                 {"category":"Watersports", "description":"Protective and fashionable",
                     "name":"Lifejacket","price":48.95,"id":"3d31d81b218c98ef"},
@@ -19,16 +20,31 @@ angular.module("sportsStore")
                 {"category":"Chess","description":"A fun game for the family",
                     "name":"Human Chess Board","price":75,"id":"5241512218f73a26"},
                 {"category":"Chess","description":"Gold-plated, diamond-studded King",
-                    "name":"Bling-Bling King","price":1200,"id":"59166228d70f8858"}]
+                    "name":"Bling-Bling King","price":1200,"id":"59166228d70f8858"}]*/
         };
 
 
-       /* $http.get(dataUrl)
+        $http.get(dataUrl)
             .success(function (data) {
                 $scope.data.products = data;
             })
             .error(function (error) {
                 $scope.data.error = error;
                 //console.log(error);
-            });*/
+            });
+        $scope.sendOrder = function (shippingDetails) {
+            //create a copy of the shipping details object so that I can safely manipulate it without affecting other parts of the application.
+            var order = angular.copy(shippingDetails);
+            order.products = cart.getProducts();
+            $http.post(orderUrl, order)
+                .success(function (data) {
+                    $scope.data.orderId = data.id;
+                    cart.getProducts().length = 0;
+                })
+                .error(function (error) {
+                    $scope.data.orderError = error;
+                }).finally(function () {
+                    $location.path("/complete");
+                });
+        }
 });
