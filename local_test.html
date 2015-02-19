@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html data-ng-app="exampl">
+<head>
+    <title>trying</title>
+    <script src="angular.js"></script>
+    <script>
+    app1 = angular.module("exampl", []);
+    app1.controller("manageData", function($scope){
+        $scope.data = [
+            {name: "lolo"},
+            {name: "migu"},
+            {name: "centau"},
+            {name: "kalikuo"}
+        ];
+    });
+    </script>
+</head>
+<body>
+    <div data-ng-controller="manageData">
+        <div data-ng-repeat="dataI in data">
+            {{dataI.name}}
+        </div>
+    </div>
+</body>
+</html>
